@@ -1,0 +1,48 @@
+<html>
+<head>
+<style type="text/css">
+svg { background: rgba(100, 100, 100, 0.1); }
+.hexfield {
+  fill: transparent;
+  stroke: yellowgreen;
+  stroke-width: 1;
+}
+.hexfield:focus {
+  outline:none;
+}
+.hexfield:hover {
+  fill: green;
+}
+.hexfield:active {
+  fill: red;
+  outline: none;
+}
+.hexfield.clicked{
+  fill: black;
+}
+</style>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js" ></script>
+<script src="hexgridwidget.js" ></script>
+Rows: <input id="rows" placeholder="Rows" value="5"/><br/>
+Columns: <input id="columns" placeholder="Columns" value="10"/><br/>
+Radius: <input id="radius" placeholder="Radius" value="20"/><br/>
+<button id="rebuild">Rebuild</button>
+<div id="container">
+</div>
+<div id="logger"></div>
+<script>
+var rebuild = function () {
+  $('#container').empty().hexGridWidget( parseInt($('#radius').val()), parseInt($('#columns').val()), parseInt($('#rows').val()), 'hexfield');
+  $('.hexfield').on('click', function () { 
+     var jqEl = $(this);
+     $('#logger').text('clicked [' + jqEl.data('column') +', ' + jqEl.data('row') + ']');
+     this.classList.toggle('clicked'); /*jQuery toggleClass does not work on SVG */
+  });
+};
+$('#rebuild').click(rebuild);
+rebuild();
+</script>
+</body>
+</html>
