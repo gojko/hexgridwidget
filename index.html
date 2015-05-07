@@ -34,11 +34,16 @@ Radius: <input id="radius" placeholder="Radius" value="20"/><br/>
 <div id="logger"></div>
 <script>
 var rebuild = function () {
-  $('#container').empty().hexGridWidget( parseInt($('#radius').val()), parseInt($('#columns').val()), parseInt($('#rows').val()), 'hexfield');
-  $('.hexfield').on('click', function () { 
-     var jqEl = $(this);
-     $('#logger').text('clicked [' + jqEl.data('column') +', ' + jqEl.data('row') + ']');
-     this.classList.toggle('clicked'); /*jQuery toggleClass does not work on SVG */
+  var
+    radius = parseInt($('#radius').val()), 
+    columns = parseInt($('#columns').val()), 
+    rows = parseInt($('#rows').val()), 
+    cssClass = 'hexfield';
+  $('#container').empty().hexGridWidget(radius, columns, rows, cssClass).on('hexclick', function (e) { 
+     $('#logger').text('clicked [' + e.column + ',' + e.row + '] hex with center at [' + e.center.x + ',' + e.center.y + '] px');
+  });
+  $('#container .hexfield').click(function () {
+    this.classList.toggle('clicked');
   });
 };
 $('#rebuild').click(rebuild);

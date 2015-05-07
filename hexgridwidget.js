@@ -6,6 +6,10 @@ $.fn.hexGridWidget = function (radius, columns, rows, cssClass) {
 	};
 	return $(this).each(function () {
 		var element = $(this),
+				hexClick = function () {
+					var hex = $(this);
+					element.trigger($.Event('hexclick', hex.data()));
+				},
 				height = Math.sqrt(3) / 2 * radius,
 				svgParent = createSVG('svg').attr('tabindex', 1).appendTo(element).css({
 					width: (1.5 * columns  +  0.5) * radius,
@@ -17,7 +21,7 @@ $.fn.hexGridWidget = function (radius, columns, rows, cssClass) {
 				};
 		for (row = 0; row < rows; row++) {
 			for (column = 0; column < columns; column++) {
-				center = {x:(1 + 1.5 * column) * radius, y: height * (1 + row * 2 + (column % 2))};
+				center = {x:Math.round((1 + 1.5 * column) * radius), y: Math.round(height * (1 + row * 2 + (column % 2)))};
 				createSVG('polygon').attr({
 					points: [
 						toPoint(-1 * radius / 2, -1 * height),
@@ -30,7 +34,7 @@ $.fn.hexGridWidget = function (radius, columns, rows, cssClass) {
 					'class':cssClass,
 					tabindex:1
 				})
-				.appendTo(svgParent).data({center:center, row:row, column:column});
+				.appendTo(svgParent).data({center:center, row:row, column:column}).on('click', hexClick);
 			}
 		}
 	});
