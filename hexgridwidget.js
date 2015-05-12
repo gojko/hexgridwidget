@@ -34,7 +34,7 @@ $.fn.hexGridWidget = function (radius, columns, rows, cssClass) {
 					'class':cssClass,
 					tabindex:1
 				})
-				.appendTo(svgParent).data({center:center, row:row, column:column}).on('click', hexClick);
+				.appendTo(svgParent).data({center:center, row:row, column:column}).on('click', hexClick).attr({'hex-row': row, 'hex-column': column});
 			}
 		}
 	});
