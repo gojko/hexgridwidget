@@ -16,7 +16,7 @@ based games.
 
 Initialise the grid by calling hexGridWidget:
 
-     $('#container').hexGridWidget(radius, columns, rows, cssClass)
+    $('#container').hexGridWidget(radius, columns, rows, cssClass)
 
 - _radius_ is the length (in pixels) of the side of a single hexagon (effectively
 the radius of the circle in which the hex field will be inscribed. 
@@ -43,17 +43,18 @@ properties:
 - center: object with {x, y} containing the center position of the clicked hex
   field, relative to the grid container
 
+
     $('#container').hexGridWidget(radius, columns, rows, cssClass).on('hexclick', function (e) { 
-      console.log('clicked [' + e.column + ',' + e.row +
-			  '] hex with center at [' + e.center.x + ',' + e.center.y + ']');
+				console.log('clicked [' + e.column + ',' + e.row +']' +
+				' hex with center at [' + e.center.x + ',' + e.center.y + ']');
     });
 
 The second option is to assign a normal click handler to individual hex field,
 or even a group of hexfields.
 
-  $('#container .hexfield').click(function () {
-    this.classList.toggle('clicked');
-  });
+    $('#container .hexfield').click(function () {
+      this.classList.toggle('clicked');
+    });
 
 The first approach is particularly useful if you plan to resize grids
 dynamically after creation, because the individual hexes will be destroyed after
