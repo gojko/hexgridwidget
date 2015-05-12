@@ -37,10 +37,12 @@ the grid. For example:
 There are two ways to capture clicks. The first one is to listen to a _hexclick_
 event on the grid container DOM element. 
 
-    $('#container').hexGridWidget(radius, columns, rows, cssClass).on('hexclick', function (e) { 
+    $('#container').hexGridWidget(radius, columns, rows, cssClass).on('hexclick', 
+			function (e) { 
 				console.log('clicked [' + e.column + ',' + e.row +']' +
 				' hex with center at [' + e.center.x + ',' + e.center.y + ']');
-    });
+			}
+		);
 
 This event will have the following properties:
 
