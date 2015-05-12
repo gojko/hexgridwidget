@@ -12,7 +12,9 @@ based games.
 - Fields have jQuery meta-data attached to point to the center of the field, so
   you can easily put other objects on them and position relative to the grid
 
+## Demo
 
+See http://gojko.github.io/hexgridwidget/
 
 ## Usage
 
