@@ -1,7 +1,22 @@
-<html>
-<head>
-<style type="text/css">
-svg { background: rgba(100, 100, 100, 0.1); }
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+	<title>Simple jQuery Hex Grid widget for game prototyping</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="jquery opensource hexgrid hex grid" />
+    <meta name="description" content="A simple jQuery Hex grid Widget, implemented using SVG, for prototyping hex-grid based games." />
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js" ></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+
+<script src="hexgridwidget.js" ></script>
+		
+		<style type="text/css">
+svg {}
 .hexfield {
   fill: transparent;
   stroke: yellowgreen;
@@ -21,24 +36,134 @@ svg { background: rgba(100, 100, 100, 0.1); }
   fill: black;
 }
 </style>
-</head>
+  </head>
 <body>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js" ></script>
-<script src="hexgridwidget.js" ></script>
-Rows: <input id="rows" placeholder="Rows" value="5"/><br/>
-Columns: <input id="columns" placeholder="Columns" value="10"/><br/>
-Radius: <input id="radius" placeholder="Radius" value="20"/><br/>
-<button id="rebuild">Rebuild</button>
-<div id="container">
+
+<div class="container">
+  <div class="hero-unit">
+<div class="pull-right">
+    <a href="https://twitter.com/gojkoadzic" class="twitter-follow-button"
+	data-show-count="true" data-show-screen-name="true" data-lang="en">Follow @gojkoadzic</a> 
 </div>
-<div id="logger"></div>
+			<h1>Hex Grid Widget<br/> <small>
+				A simple jQuery Hex grid Widget, implemented using SVG, for prototyping hex-grid
+				based games. </small>
+		</h1>
+	</div>
+	<div class="row">
+		<div class="span6" style="text-align:center">
+			<div id="container"> </div>
+			<h2><small id="logger">click around the grid</small></h2>
+		</div>
+			<div class="span6">
+			<form class="form-horizontal" onsubmit="return false;">
+				<div class="control-group">
+					<label class="control-label">Rows</label>
+					<div class="controls">
+						<input class="input" id="rows" placeholder="Rows" value="5"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Columns</label> 
+					<div class="controls">
+						<input class="input" id="columns" placeholder="Columns" value="10"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Radius</label> 
+					<div class="controls">
+						<input	class="input" id="radius" placeholder="Radius" value="20"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button class="btn" id="rebuild">Rebuild</button>
+					</div>
+				</div>
+
+		</form>
+		</div>
+		<hr/>
+	</div>
+
+
+<div class="row">
+    <div class="span6">
+          <h2>About</h2>
+          <p>
+		  This opensource <a href="https://github.com/gojko/hexgridwidget">tiny (1.5KB, &lt; 40 lines) jQuery plugin</a> turns any 
+		  DIV into an hexagonal grid widget, for prototyping hex-grid based games in
+			HTML. Here are the key features:
+      </p>
+          <ul>
+            <li>No magic - just plain DOM, works in all browsers, easy to manipulate </li>
+            <li>Does not force any styling (so you can style it any way you want, using normal CSS)</li>
+            <li>Fields can are clickable, and the grid has dispatches an event
+						with row and column position for easy click handling</li>
+						<li>Fields have DOM attributes attached to signal row and column position, so you can
+  easily select them using jQuery or DOM selectors.</li>
+            <li>Fields have jQuery meta-data attached to point to the center of the field, so
+  you can easily put other objects on them and position relative to the grid </li>
+      </ul>
+			<br/>
+			 <p style="text-align:center;">
+				<a class="btn btn-large btn-primary jumbo" href="https://github.com/gojko/hexgridwidget">View project on Github</a>
+        <a class="btn btn-large jumbo" href="https://twitter.com/gojkoadzic"><i class="icon-twitter"></i></a>
+        </p>
+			
+		</div>
+		<div class="span6">
+
+      <h2>Usage</h2>
+
+			<p>	Initialise the grid by calling <i>hexGridWidget</i>:</p>
+
+<pre>
+$('#container').hexGridWidget(radius, columns, rows, cssClass)
+</pre>    
+
+<p>
+Use the _hex-row_ and _hex-column_ DOM attributes to select an individual hex in
+the grid. For example:
+</p>
+<pre>
+$('#container [hex-row=2][hex-column=3]')
+</pre>
+
+<p>Capture clicks by
+listening to a <i>hexclick</i>
+event on the grid container DOM element. </p>
+<pre>
+$('#container').on('hexclick', 
+ function (e) { 
+  console.log('clicked [' + e.column + ',' + e.row +']' +
+  ' hex with center at [' + e.center.x + ',' + e.center.y + ']');
+ }
+);
+</pre>
+
+Alternatively, just assign a normal click handler to individual hex field,
+or even a group of hexfields.
+<pre>
+$('#container .hexfield').click(function () {
+  this.classList.toggle('clicked');
+});
+</pre>
+
+
+    </div>
+	</div>
+</div>
+
 <script>
+<!-- main initialisation -->
 var rebuild = function () {
   var
     radius = parseInt($('#radius').val()), 
     columns = parseInt($('#columns').val()), 
     rows = parseInt($('#rows').val()), 
     cssClass = 'hexfield';
+
   $('#container').empty().hexGridWidget(radius, columns, rows, cssClass).on('hexclick', function (e) { 
      $('#logger').text('clicked [' + e.column + ',' + e.row + '] hex with center at [' + e.center.x + ',' + e.center.y + '] px');
   });
@@ -49,5 +174,9 @@ var rebuild = function () {
 $('#rebuild').click(rebuild);
 rebuild();
 </script>
-</body>
+<a href="https://github.com/gojko/hexgridwidget"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+<div id="fb-root"></div>
+<script>!function(d,s,id){var
+js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  </body>
 </html>

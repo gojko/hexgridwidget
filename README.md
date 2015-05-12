@@ -1,16 +1,18 @@
-# hexgridwidget
+# A simple jQuery Hex Grid Widget
 
-A simple jQuery Hex Grid Widget, implemented using SVG, for prototyping hex-grid
+A simple jQuery Hex grid Widget, implemented using SVG, for prototyping hex-grid
 based games.
 
+- Just plain DOM, works in all browsers, easy to manipulate
+- Does not force any styling (so you can style it any way you want, using normal CSS)
 - Fields can are clickable, and the grid has dispatches an event with row and
-  column position for easy analysis
+  column position for easy click handling 
 - Fields have DOM attributes attached to signal row and column position, so you can
   easily select them using jQuery or DOM selectors. 
 - Fields have jQuery meta-data attached to point to the center of the field, so
   you can easily put other objects on them and position relative to the grid
-- Everything can be styled using CSS, there is no style enforcement by the
-  widget. 
+
+
 
 ## Usage
 
