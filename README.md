@@ -35,19 +35,19 @@ the grid. For example:
 ##Capturing clicks
 
 There are two ways to capture clicks. The first one is to listen to a _hexclick_
-event on the grid container DOM element. This event will have the following
-properties:
-
-- column: hex grid column clicked
-- row: hex grid row clicked
-- center: object with {x, y} containing the center position of the clicked hex
-  field, relative to the grid container
-
+event on the grid container DOM element. 
 
     $('#container').hexGridWidget(radius, columns, rows, cssClass).on('hexclick', function (e) { 
 				console.log('clicked [' + e.column + ',' + e.row +']' +
 				' hex with center at [' + e.center.x + ',' + e.center.y + ']');
     });
+
+This event will have the following properties:
+
+- column: hex grid column clicked
+- row: hex grid row clicked
+- center: object with {x, y} containing the center position of the clicked hex
+  field, relative to the grid container
 
 The second option is to assign a normal click handler to individual hex field,
 or even a group of hexfields.
@@ -56,7 +56,7 @@ or even a group of hexfields.
       this.classList.toggle('clicked');
     });
 
-The first approach is particularly useful if you plan to resize grids
+The _hexclick_ event is particularly useful if you plan to resize grids
 dynamically after creation, because the individual hexes will be destroyed after
 resizing. 
 
